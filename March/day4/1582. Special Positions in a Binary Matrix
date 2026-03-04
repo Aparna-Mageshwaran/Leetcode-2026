@@ -1,0 +1,36 @@
+class Solution {
+    public int numSpecial(int[][] mat) {
+        List<int[]> candidatePositions = new ArrayList<>();
+        Set<Integer> validColumns = new HashSet<>();
+        int rows = mat.length, cols = mat[0].length;
+        
+        // First pass: Find rows with exactly one 1
+        for (int i = 0; i < rows; i++) {
+            int onesCount = 0;
+            int colIndex = 0;
+            for (int j = 0; j < cols; j++) {
+                if (mat[i][j] == 1) {
+                    onesCount++;
+                    colIndex = j;
+                }
+            }
+            if (onesCount == 1) candidatePositions.add(new int[]{i, colIndex});
+        }
+        
+        // Second pass: Find columns with exactly one 1
+        for (int j = 0; j < cols; j++) {
+            int onesCount = 0;
+            for (int i = 0; i < rows; i++) {
+                if (mat[i][j] == 1) onesCount++;
+            }
+            if (onesCount == 1) validColumns.add(j);
+        }
+        
+        // Count positions that satisfy both conditions
+        int specialCount = 0;
+        for (int[] position : candidatePositions) {
+            if (validColumns.contains(position[1])) specialCount++;
+        }
+        return specialCount;
+    }
+}
