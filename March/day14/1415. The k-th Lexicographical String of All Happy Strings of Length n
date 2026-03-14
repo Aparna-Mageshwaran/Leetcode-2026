@@ -1,0 +1,19 @@
+class Solution:
+    def getHappyString(self, n: int, k: int) -> str:
+        def generate_happy_strings(length, current_string=""):
+            if length == 0:
+                return [current_string]
+
+            happy_strings = []
+            for char in ['a', 'b', 'c']:
+                if not current_string or char != current_string[-1]:
+                    happy_strings.extend(generate_happy_strings(length - 1, current_string + char))
+            return happy_strings
+        happy_strings = generate_happy_strings(n)
+        happy_strings.sort()  
+
+        if 1 <= k <= len(happy_strings):
+            return happy_strings[k - 1]
+        else:
+            return ""
+        
